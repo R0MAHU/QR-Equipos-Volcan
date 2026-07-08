@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSEE 02-S · Subestación Bocamina RP4645</title>
+<style>
+  :root{
+    --bg: #14181C;
+    --panel: #1B2126;
+    --panel-2: #20282E;
+    --stripe-yellow: #F2B705;
+    --stripe-black: #14181C;
+    --hazard-red: #D9432E;
+    --text: #E8EAED;
+    --text-muted: #8B95A1;
+    --line: #2C343B;
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page{
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: var(--panel);
+    box-shadow: 0 0 40px rgba(0,0,0,0.4);
+  }
+
+  /* Franja de peligro eléctrico - elemento firma */
+  .hazard-strip{
+    height: 10px;
+    width: 100%;
+    background: repeating-linear-gradient(
+      45deg,
+      var(--stripe-yellow),
+      var(--stripe-yellow) 14px,
+      var(--stripe-black) 14px,
+      var(--stripe-black) 28px
+    );
+  }
+
+  header{
+    padding: 22px 20px 18px;
+    border-bottom: 1px solid var(--line);
+    background: var(--panel-2);
+  }
+
+  .tag{
+    display: inline-block;
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    color: #14181C;
+    background: var(--stripe-yellow);
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  h1{
+    margin: 0 0 6px;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.2px;
+  }
+
+  .ubicacion{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-muted);
+    font-size: 13.5px;
+  }
+
+  .ubicacion svg{ flex-shrink:0; }
+
+  /* Imagen referencial */
+  .foto-wrap{
+    position: relative;
+    aspect-ratio: 16/9;
+    background: #0F1215;
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+  }
+
+  .foto-real{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Descripción */
+  .descripcion{
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .descripcion .label{
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--stripe-yellow);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .descripcion p{
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  /* Índice de documentos */
+  .documentos{
+    padding: 18px 20px 26px;
+  }
+
+  .documentos .label{
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--stripe-yellow);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .doc-item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .doc-item:active{
+    background: #262F36;
+  }
+
+  .doc-item.disponible{
+    border-left: 3px solid var(--stripe-yellow);
+  }
+
+  .doc-item.pendiente{
+    border-left: 3px solid var(--line);
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  .doc-left{
+    display:flex;
+    align-items:center;
+    gap: 12px;
+  }
+
+  .doc-icon{
+    width: 34px;
+    height: 34px;
+    border-radius: 5px;
+    background: #14181C;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+  }
+
+  .doc-nombre{
+    font-size: 14.5px;
+    font-weight: 600;
+  }
+
+  .doc-estado{
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .chevron{
+    color: var(--text-muted);
+    flex-shrink:0;
+  }
+
+  footer{
+    padding: 16px 20px 24px;
+    text-align:center;
+    font-size: 11px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--line);
+  }
+
+  footer .badge{
+    display:inline-block;
+    margin-top:8px;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--hazard-red);
+    border: 1px solid var(--hazard-red);
+    padding: 3px 8px;
+    border-radius: 3px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="hazard-strip"></div>
+
+  <header>
+    <span class="tag">SSEE 02-S</span>
+    <h1>Subestación Bocamina RP4645</h1>
+    <div class="ubicacion">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z"/>
+        <circle cx="12" cy="10" r="2.5"/>
+      </svg>
+      Bocamina Rampa 4645
+    </div>
+  </header>
+
+  <div class="foto-wrap">
+    <img src="Subestacion_Bocamina.jpeg" alt="Subestación Bocamina RP4645 - SSEE 02-S" class="foto-real">
+  </div>
+
+  <div class="descripcion">
+    <div class="label">Descripción general</div>
+    <p>[Pendiente — completar con descripción breve del equipo: función dentro del proceso, alcance, etc.]</p>
+  </div>
+
+  <div class="documentos">
+    <div class="label">Documentos</div>
+
+    <a href="#" class="doc-item disponible">
+      <div class="doc-left">
+        <div class="doc-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F2B705" stroke-width="2">
+            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+            <path d="M13 2v7h7"/>
+          </svg>
+        </div>
+        <div>
+          <div class="doc-nombre">Plano Unifilar</div>
+          <div class="doc-estado">Reemplazar link por documento real</div>
+        </div>
+      </div>
+      <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 18l6-6-6-6"/>
+      </svg>
+    </a>
+
+    <div class="doc-item pendiente">
+      <div class="doc-left">
+        <div class="doc-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8B95A1" stroke-width="2">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 7v5l3 3"/>
+          </svg>
+        </div>
+        <div>
+          <div class="doc-nombre">Próxima información</div>
+          <div class="doc-estado">Se adicionará en fase siguiente</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    Prototipo QR · Instrumentación y Control · Minera Volcan
+    <div class="badge">Solo consulta</div>
+  </footer>
+
+</div>
+
+</body>
+</html>
